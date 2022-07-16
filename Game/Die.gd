@@ -12,7 +12,7 @@ signal player_rolled(damage)
 func _ready():
 	reset()
 	enemy = get_node("/root/Main/Enemy")
-	connect("player_rolled", enemy, "_start_turn")
+	connect("player_rolled", enemy, "_damage_calc")
 	rules = get_node("/root/Main/Rules")
 
 func roll():

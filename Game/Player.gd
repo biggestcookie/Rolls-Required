@@ -5,8 +5,6 @@ var state
 const PlayerState = preload("res://Game/PlayerState.gd")
 var rules
 
-signal reset
-
 func _ready():
 	state = PlayerState.PLAYER_TURN
 	rules = get_node("/root/Main/Rules")
