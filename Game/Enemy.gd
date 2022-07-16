@@ -3,36 +3,42 @@ var health = 30
 var rng = RandomNumberGenerator.new()
 var weakspot
 var selected_die
-signal enemy_rolled(damage)
+signal end_turn(damage)
+signal enemy_skipped
 var player
 var rules
+var parried
 
 func _ready():
+	parried = false
 	player = get_node("/root/Main/Player")
 	rules = get_node("/root/Main/Rules")
-	connect("enemy_rolled", player, "_start_turn")
+	connect("end_turn", player, "_damage_calc")
+	connect("enemy_skipped", player, "_continue")	
 	generate_weakspot()
 	select_die()
-
-func _start_turn(damage):
-	var parried = false
+	
+func _damage_calc(damage):
 	if damage == weakspot:
 		damage += rules.critical
 		health -= damage
 		Events.emit_signal("text_log_push", "You hit the weak spot for {damage} damage! They have {health} health.".format({"damage":damage, "health":health}))
 		parried = true
-	else:
+		Events.emit_signal("text_log_push", "The enemy skips their next turn due to your parry")
+		emit_signal("enemy_skipped")
+		weakspot = -1
+	else: 
 		health -= damage
 		Events.emit_signal("text_log_push", "Enemy takes {damage} damage. They have {health} health.".format({"damage":damage, "health":health}))
-	if health > 0:
-		if parried:
-			Events.emit_signal("text_log_push", "The enemy skips their next turn due to your parry")
-			emit_signal("enemy_rolled", 0)			
-		else:
-			rng.randomize()
-			var result = selected_die.sides[rng.randi_range(0, selected_die.sides.size()-1)]
-			Events.emit_signal("text_log_push", "The enemy has rolled a {result}.".format({"result":result}))
-			emit_signal("enemy_rolled", result)
+		if health > 0:
+			if parried:
+				emit_signal("end_turn", -1)
+				parried = false
+			else:
+				rng.randomize()
+				var result = selected_die.sides[rng.randi_range(0, selected_die.sides.size()-1)]
+				Events.emit_signal("text_log_push", "The enemy has rolled a {result}.".format({"result":result}))
+				emit_signal("end_turn", result)
 			generate_weakspot()
 			select_die()
 		

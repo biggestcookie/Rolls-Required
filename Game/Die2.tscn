@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Game/Button.gd" type="Script" id=1]
+[ext_resource path="res://Game/Die.gd" type="Script" id=2]
+
+[node name="Die" type="Node"]
+script = ExtResource( 2 )
+sides = [ 1, 2, 3 ]
+
+[node name="Button" type="Button" parent="."]
+margin_left = 693.0
+margin_top = 459.0
+margin_right = 780.0
+margin_bottom = 522.0
+script = ExtResource( 1 )

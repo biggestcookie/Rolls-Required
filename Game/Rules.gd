@@ -9,6 +9,15 @@ enum critical_state {
 	THREE
 }
 
+var roll_limit = roll_limits.ONE
+
+enum roll_limits {
+	ZERO,
+	ONE,
+	TWO,
+	THREE
+}
+
 func _ready():
 	pass # Replace with function body.
 	
