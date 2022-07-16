@@ -17,6 +17,7 @@ var state = MOVE
 var velocity = Vector2.ZERO
 var roll_vector = Vector2.DOWN
 var stats = PlayerStats
+var die
 
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
@@ -25,7 +26,11 @@ onready var swordHitbox = $HitboxPivot/SwordHitbox
 onready var hurtbox = $Hurtbox
 onready var blinkAnimationPlayer = $BlinkAnimationPlayer
 
+signal throw 
+
 func _ready():
+	die = get_node("/root/World/YSort/Die")
+	connect("throw", die, "_throw")
 	randomize()
 	stats.connect("no_health", self, "queue_free")
 	animationTree.active = true
@@ -67,7 +72,8 @@ func move_state(delta):
 		state = ROLL
 	
 	if Input.is_action_just_pressed("attack"):
-		state = ATTACK
+		emit_signal("throw")
+		#state = ATTACK
 
 func roll_state():
 	velocity = roll_vector * ROLL_SPEED
