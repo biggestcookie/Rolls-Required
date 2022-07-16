@@ -3,7 +3,6 @@ const PlayerState = preload("res://Game/PlayerState.gd")
 
 var rng = RandomNumberGenerator.new()
 export var sides = []
-var enemy
 var times_rolled
 var rules
 
@@ -11,11 +10,11 @@ signal player_rolled(damage)
 
 func _ready():
 	reset()
-	enemy = get_node("/root/Main/Enemy")
-	connect("player_rolled", enemy, "_damage_calc")
 	rules = get_node("/root/Main/Rules")
 
-func roll():
+func roll(enemy):
+	get_parent().selected_die = null
+	connect("player_rolled", enemy, "_damage_calc")	
 	get_parent().state = PlayerState.ENEMY_TURN
 	rng.randomize()
 	var result = sides[rng.randi_range(0, sides.size()-1)]
@@ -26,7 +25,8 @@ func roll():
 func _on_Button_pressed():
 	if get_parent().state == PlayerState.PLAYER_TURN:
 		if times_rolled < rules.roll_limit:
-			roll()
+			#roll()
+			get_parent().selected_die = self
 		else:
 			Events.emit_signal("text_log_push", "You cannot roll this die anymore for this turn")
 

@@ -4,6 +4,7 @@ var health = 30
 var state
 const PlayerState = preload("res://Game/PlayerState.gd")
 var rules
+var selected_die
 
 func _ready():
 	state = PlayerState.PLAYER_TURN
@@ -13,10 +14,9 @@ func _damage_calc(damage):
 	if damage > 0:
 		health -= damage
 		Events.emit_signal("text_log_push", "You take {damage} damage. You have {health} health.".format({"damage":damage, "health":health}))
-	start_turn()
 		
 func start_turn():
-	yield(get_tree().create_timer(0.75), "timeout")	
+	yield(get_tree().create_timer(0.75), "timeout")
 	Events.emit_signal("text_log_push", "It is your turn.")
 	state = PlayerState.PLAYER_TURN
 	var dice = self.get_children()
@@ -24,6 +24,7 @@ func start_turn():
 		die.reset()
 
 func _continue():
+	yield(get_tree().create_timer(0.75), "timeout")	
 	state = PlayerState.PLAYER_TURN	
 	if not can_roll():
 		start_turn()
@@ -53,3 +54,7 @@ func can_roll():
 		if die.times_rolled < rules.roll_limit:
 			return true
 	return false
+	
+func select_enemy(enemy):
+	if selected_die:
+		selected_die.roll(enemy)
