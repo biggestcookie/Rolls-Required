@@ -3,6 +3,7 @@ extends Node
 var health = 30
 var state
 const PlayerState = preload("res://Game/PlayerState.gd")
+var enemy_controller
 var Die = load("res://Game/Die.tscn")
 var rules
 var selected_die
@@ -10,6 +11,7 @@ var selected_die
 func _ready():
 	state = PlayerState.PLAYER_TURN
 	rules = get_node("/root/Main/Rules")
+	enemy_controller = get_node("/root/Main/Enemies")	
 	display_dice()
 	
 func _damage_calc(damage):
@@ -29,6 +31,7 @@ func _continue():
 	yield(get_tree().create_timer(0.75), "timeout")	
 	state = PlayerState.PLAYER_TURN	
 	if not can_roll():
+		enemy_controller.calculate_enemy_attacks()
 		start_turn()
 	else:
 		Events.emit_signal("text_log_push", "You can still roll for this turn.")

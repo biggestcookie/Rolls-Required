@@ -18,9 +18,6 @@ sides = [ 1, 2, 3 ]
 
 [node name="EnemyIcon" parent="." instance=ExtResource( 4 )]
 
-[node name="Node2D" parent="EnemyIcon" index="0"]
-visible = false
-
 [node name="Sprite" parent="EnemyIcon/Node2D" index="0"]
 position = Vector2( 0, 0 )
 
