@@ -1,4 +1,5 @@
 extends Node
+class_name Player
 
 var max_health = 30
 var health
