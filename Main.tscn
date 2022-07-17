@@ -33,9 +33,16 @@ script = ExtResource( 8 )
 [node name="Node2D" parent="Enemies/Enemy/EnemyIcon" index="0"]
 position = Vector2( 520, 326 )
 
+[node name="Enemy2" parent="Enemies" instance=ExtResource( 3 )]
+
+[node name="Node2D" parent="Enemies/Enemy2/EnemyIcon" index="0"]
+position = Vector2( 520, 326 )
+
 [editable path="Control"]
 [editable path="Player/Die"]
 [editable path="Player/Die2"]
 [editable path="Player/Die3"]
 [editable path="Enemies/Enemy"]
 [editable path="Enemies/Enemy/EnemyIcon"]
+[editable path="Enemies/Enemy2"]
+[editable path="Enemies/Enemy2/EnemyIcon"]
