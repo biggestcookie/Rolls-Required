@@ -10,7 +10,7 @@ var selected_die
 func _ready():
 	state = PlayerState.PLAYER_TURN
 	rules = get_node("/root/Main/Rules")
-	
+	display_dice()
 	
 func _damage_calc(damage):
 	if damage > 0:
@@ -60,3 +60,18 @@ func can_roll():
 func select_enemy(enemy):
 	if selected_die:
 		selected_die.roll(enemy)
+		
+func display_dice():
+	var dice = self.get_children()
+	var screen_width = get_viewport().get_visible_rect().size.x
+	var increment = screen_width/(dice.size()+1)
+	var position = 0
+	for die in dice:
+		die.get_node("Node2D").position = Vector2(position + increment, 500)
+		die.get_node("Node2D").visible = true
+		position += increment
+		
+func hide_dice():
+	var dice = self.get_children()
+	for die in dice:
+		die.get_node("Node2D").visible = false

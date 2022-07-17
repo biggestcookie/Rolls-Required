@@ -18,54 +18,51 @@ sides = [ 1, 2, 3 ]
 
 [node name="EnemyIcon" parent="." instance=ExtResource( 4 )]
 
-[node name="Sprite" parent="EnemyIcon" index="0"]
+[node name="Sprite" parent="EnemyIcon/Node2D" index="0"]
 position = Vector2( 0, 0 )
-scale = Vector2( 0.3, 0.3 )
 
-[node name="EnemyName" parent="EnemyIcon" index="1"]
-margin_left = -554.52
-margin_top = -287.4
-margin_right = -428.52
-margin_bottom = -254.4
+[node name="EnemyName" parent="EnemyIcon/Node2D" index="1"]
+margin_left = -65.0
+margin_top = -90.0
+margin_right = 61.0
+margin_bottom = -57.0
 text = "Demon"
 
-[node name="Health" parent="EnemyIcon" index="2"]
-margin_left = -624.52
-margin_top = -137.4
-margin_right = -498.52
-margin_bottom = -104.4
+[node name="Health" parent="EnemyIcon/Node2D" index="2"]
+margin_left = -135.0
+margin_top = 60.0
+margin_right = -9.00003
+margin_bottom = 93.0
 
-[node name="Lucky" parent="EnemyIcon" index="3"]
-margin_left = -426.52
-margin_top = -262.4
-margin_right = -394.52
-margin_bottom = -229.4
-custom_colors/font_color = Color( 1, 0.964706, 0.0941176, 1 )
+[node name="Lucky" parent="EnemyIcon/Node2D" index="3"]
+margin_left = 63.0
+margin_top = -65.0
+margin_right = 95.0
+margin_bottom = -32.0
 
-[node name="Curse" parent="EnemyIcon" index="4"]
-margin_left = -426.52
-margin_top = -214.4
-margin_right = -394.52
-margin_bottom = -179.4
-custom_colors/font_color = Color( 0.713726, 0.152941, 0.152941, 1 )
+[node name="Curse" parent="EnemyIcon/Node2D" index="4"]
+margin_left = 63.0
+margin_top = -17.0
+margin_right = 95.0
+margin_bottom = 18.0
 
-[node name="MaxHealth" parent="EnemyIcon" index="5"]
-margin_left = -484.52
-margin_top = -137.4
-margin_right = -358.52
-margin_bottom = -104.4
+[node name="MaxHealth" parent="EnemyIcon/Node2D" index="5"]
+margin_left = 5.0
+margin_top = 60.0
+margin_right = 131.0
+margin_bottom = 93.0
 
-[node name="Slash" parent="EnemyIcon" index="6"]
-margin_left = -553.52
-margin_top = -137.4
-margin_right = -427.52
-margin_bottom = -104.4
+[node name="Slash" parent="EnemyIcon/Node2D" index="6"]
+margin_left = -64.0
+margin_top = 60.0
+margin_right = 62.0
+margin_bottom = 93.0
 
-[node name="Area2D" type="Area2D" parent="EnemyIcon"]
+[node name="Area2D" type="Area2D" parent="EnemyIcon/Node2D" index="7"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyIcon/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyIcon/Node2D/Area2D"]
 shape = SubResource( 1 )
 
-[connection signal="input_event" from="EnemyIcon/Area2D" to="." method="_on_Area2D_input_event"]
+[connection signal="input_event" from="EnemyIcon/Node2D/Area2D" to="." method="_on_Area2D_input_event"]
 
 [editable path="EnemyIcon"]

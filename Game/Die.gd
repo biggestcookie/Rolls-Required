@@ -5,7 +5,7 @@ var rng = RandomNumberGenerator.new()
 export var sides = []
 var times_rolled
 var rules
-onready var sides_label: Label = $Sides
+onready var sides_label = $Node2D/Sides
 
 signal player_rolled(damage)
 
