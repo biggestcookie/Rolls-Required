@@ -1,5 +1,6 @@
 extends Node
-export var health = 20
+export var max_health = 20
+var health
 var rng = RandomNumberGenerator.new()
 var lucky
 var curse
@@ -8,14 +9,14 @@ signal damage(number)
 signal enemy_skipped
 signal select(target)
 var player
-var rules
 var parried
 var cursed
 
 func _ready():
+	health = max_health
+	get_node("Node2D").on_health_update(health, max_health)
 	parried = false
 	player = get_node("/root/Main/Player")
-	rules = get_node("/root/Main/Rules")
 	connect("damage", player, "_damage_calc")
 	connect("enemy_skipped", player, "_continue")	
 	connect("select", player, "select_enemy")
@@ -24,12 +25,12 @@ func _ready():
 	
 func _damage_calc(damage):
 	if damage == lucky:
-		if damage == 1:
-			damage = 11
-		else:
-			damage += rules.critical
+		damage += 1
 		health -= damage
 		Events.emit_signal("text_log_push", "You hit the weak spot for {damage} damage! They have {health} health.".format({"damage":damage, "health":health}))
+		if health <= 0:
+			get_parent().calculate_enemy_attacks()		
+			queue_free()
 		parried = true
 		Events.emit_signal("text_log_push", "{name} skips their next turn due to your parry".format({"name":name}))
 		emit_signal("enemy_skipped")
@@ -41,16 +42,19 @@ func _damage_calc(damage):
 	elif damage == 1:
 		health -= damage
 		Events.emit_signal("text_log_push", "{name} takes {damage} damage. They have {health} health. You may roll again due to your accuracy.".format({"name":name, "damage":damage, "health":health}))
+		if health <= 0:
+			get_parent().calculate_enemy_attacks()
+			queue_free()
 		emit_signal("enemy_skipped")
 	else: 
 		health -= damage
 		Events.emit_signal("text_log_push", "{name} takes {damage} damage. They have {health} health.".format({"name":name, "damage":damage, "health":health}))
+		if health <= 0:
+			queue_free()
 		get_parent().calculate_enemy_attacks()
-	get_node("EnemyIcon").on_health_update(health)	
+	get_node("Node2D").on_health_update(health, max_health)
 
 func roll():
-	if health <= 0:
-		queue_free()
 	if parried:
 		Events.emit_signal("text_log_push", "{name} skips their turn".format({"name":name}))
 		parried = false
@@ -69,35 +73,23 @@ func generate_chance_numbers():
 	rng.randomize()
 	var potential = player.get_potential_rolls()
 	lucky = potential[rng.randi_range(0, potential.size()-1)]
-	get_node("EnemyIcon").on_lucky_update(lucky)
+	get_node("Node2D").on_lucky_update(lucky)
 	potential.erase(lucky)
 	rng.randomize()
 	curse = potential[rng.randi_range(0, potential.size()-1)]
-	get_node("EnemyIcon").on_curse_update(curse)
+	get_node("Node2D").on_curse_update(curse)
 	
 func clear_chance_numbers():
 	lucky = -1
 	curse = -1
-	get_node("EnemyIcon").on_lucky_update("")
-	get_node("EnemyIcon").on_curse_update("")	
+	get_node("Node2D").on_lucky_update("")
+	get_node("Node2D").on_curse_update("")	
 	
 func select_die():
 	var dice = self.get_node("Dice").get_children()
 	rng.randomize()
 	selected_die = dice[rng.randi_range(0,dice.size()-1)]
 	Events.emit_signal("text_log_push", "{name} is going to roll their {dice} die next turn.".format({"name":name, "dice":selected_die.sides}))
-	
-func isEven(number):
-	if number%2==1:
-		return true
-	else:
-		return false
-		
-func isOdd(number):
-	if number%2==0:
-		return true
-	else:
-		return false
 		
 func _on_Area2D_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.pressed:

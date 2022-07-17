@@ -1,0 +1,76 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Art/JetBrainsDynamicFont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Art/PixelateShaderMat.tres" type="Material" id=2]
+[ext_resource path="res://Art/ninja_1f977.png" type="Texture" id=3]
+[ext_resource path="res://Game/Enemy.gd" type="Script" id=4]
+[ext_resource path="res://Screen/EnemyIcon.gd" type="Script" id=5]
+[ext_resource path="res://Game/EnemyDie.tscn" type="PackedScene" id=6]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 76.0066
+
+[node name="Ninja" type="Node"]
+script = ExtResource( 4 )
+
+[node name="Dice" type="Node" parent="."]
+
+[node name="Die" parent="Dice" instance=ExtResource( 6 )]
+sides = [ 1, 2, 3 ]
+
+[node name="Node2D" type="Node2D" parent="."]
+script = ExtResource( 5 )
+
+[node name="Sprite" type="Sprite" parent="Node2D"]
+material = ExtResource( 2 )
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 3 )
+
+[node name="EnemyName" type="Label" parent="Node2D"]
+margin_left = -34.0
+margin_top = -61.0
+margin_right = 36.0
+margin_bottom = -28.0
+custom_fonts/font = ExtResource( 1 )
+text = "Ninja"
+align = 1
+valign = 1
+
+[node name="Lucky" type="Label" parent="Node2D"]
+margin_left = 26.0
+margin_top = -25.0
+margin_right = 57.0
+margin_bottom = 8.0
+rect_scale = Vector2( 0.6, 0.6 )
+custom_colors/font_color = Color( 0.952941, 0.839216, 0.0901961, 1 )
+custom_fonts/font = ExtResource( 1 )
+align = 1
+valign = 1
+
+[node name="Curse" type="Label" parent="Node2D"]
+margin_left = 26.0
+margin_top = -7.0
+margin_right = 56.0
+margin_bottom = 26.0
+rect_scale = Vector2( 0.6, 0.6 )
+custom_colors/font_color = Color( 0.780392, 0.160784, 0.160784, 1 )
+custom_fonts/font = ExtResource( 1 )
+align = 1
+valign = 1
+
+[node name="Health" type="Label" parent="Node2D"]
+margin_left = -44.0
+margin_top = 41.0
+margin_right = 106.0
+margin_bottom = 74.0
+rect_scale = Vector2( 0.6, 0.6 )
+custom_fonts/font = ExtResource( 1 )
+align = 1
+valign = 1
+
+[node name="Area2D" type="Area2D" parent="Node2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Area2D"]
+shape = SubResource( 1 )
+
+[connection signal="input_event" from="Node2D/Area2D" to="." method="_on_Area2D_input_event"]

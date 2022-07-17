@@ -24,14 +24,8 @@ func roll(enemy):
 	emit_signal("player_rolled", result)
 	disconnect("player_rolled", enemy, "_damage_calc")
 	times_rolled+=1
-
-func _on_Button_pressed():
-	if get_parent().state == PlayerState.PLAYER_TURN:
-		if times_rolled < rules.roll_limit:
-			#roll()
-			get_parent().selected_die = self
-		else:
-			Events.emit_signal("text_log_push", "You cannot roll this die anymore for this turn")
+	if times_rolled >= rules.roll_limit:
+		get_node("Node2D/Sprite").modulate = Color("#444444")
 
 func add_sides(sides_to_add):
 	sides += sides_to_add
@@ -42,12 +36,17 @@ func remove_sides(sides_to_remove):
 
 func reset():
 	times_rolled = 0
+	get_node("Node2D/Sprite").modulate = Color("#ffffff")
+	
 
 func _on_Area2D_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.pressed:
 		if get_parent().state == PlayerState.PLAYER_TURN:
 			if times_rolled < rules.roll_limit:
+				if get_parent().selected_die:
+					get_parent().selected_die.get_node("Node2D/Sprite").modulate = Color("#ffffff")
 				get_parent().selected_die = self
+				get_node("Node2D/Sprite").modulate = Color("#ffb900")			
 			else:
 				Events.emit_signal("text_log_push", "You cannot roll this die anymore for this turn.")
 				

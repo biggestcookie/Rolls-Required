@@ -1,38 +1,54 @@
 extends Node
 
-var health = 30
+var max_health = 30
+var health
 var state
 const PlayerState = preload("res://Game/PlayerState.gd")
+var health_label
 var enemy_controller
 var Die = load("res://Game/Die.tscn")
 var rules
 var selected_die
 
 func _ready():
+	health = max_health
+	health_label = get_node("/root/Main/Control/Health")
+	health_label.text = "HP: {health}/{max}".format({"health":health, "max":max_health})
 	state = PlayerState.PLAYER_TURN
 	rules = get_node("/root/Main/Rules")
-	enemy_controller = get_node("/root/Main/Enemies")	
+	enemy_controller = get_node("/root/Main/Enemies")
 	display_dice()
 	
 func _damage_calc(damage):
 	if damage > 0:
 		health -= damage
+		if health <= 0:
+			Events.emit_signal("text_log_push", "Game over!")
+			queue_free()
 		Events.emit_signal("text_log_push", "You take {damage} damage. You have {health} health.".format({"damage":damage, "health":health}))
+		health_label.text = "HP: {health}/{max}".format({"health":health, "max":max_health})
 		
 func start_turn():
-	yield(get_tree().create_timer(0.75), "timeout")
+	yield(get_tree().create_timer(0.25), "timeout")
 	Events.emit_signal("text_log_push", "It is your turn.")
+	state = PlayerState.PLAYER_TURN
+	var dice = self.get_children()
+	for die in dice:
+		die.reset()
+		
+func start_loot():
+	yield(get_tree().create_timer(0.25), "timeout")
+	Events.emit_signal("text_log_push", "Victory! Select a reward.")
 	state = PlayerState.PLAYER_TURN
 	var dice = self.get_children()
 	for die in dice:
 		die.reset()
 
 func _continue():
-	yield(get_tree().create_timer(0.75), "timeout")	
+	yield(get_tree().create_timer(0.25), "timeout")
 	state = PlayerState.PLAYER_TURN	
 	if not can_roll():
 		enemy_controller.calculate_enemy_attacks()
-		start_turn()
 	else:
 		Events.emit_signal("text_log_push", "You can still roll for this turn.")
 	

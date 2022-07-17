@@ -12,7 +12,6 @@ script = ExtResource( 2 )
 sides = [ 1, 2, 3 ]
 
 [node name="Node2D" type="Node2D" parent="."]
-visible = false
 
 [node name="Sprite" type="Sprite" parent="Node2D"]
 material = ExtResource( 3 )

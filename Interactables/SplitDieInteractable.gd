@@ -3,10 +3,14 @@ extends Node
 var player
 var rng = RandomNumberGenerator.new()
 var Die = load("res://Game/Die.tscn")
+var enemy_controller
+signal complete
 
 func _ready():
 	player = get_node("/root/Main/Player")
 	Events.emit_signal("text_log_push", "You may select a die to split (the die must have more than 3 sides and the numbers will be separated randomly).")
+	enemy_controller = get_node("/root/Main/Enemies")
+	connect("complete", enemy_controller, "generate_enemies")
 
 func _on_Area2D_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.pressed:
@@ -22,6 +26,7 @@ func _on_Area2D_input_event(viewport, event, shape_idx):
 			get_parent().remove_child(self)
 			new_parent.add_child(self)
 			old_parent.display_events()
+			emit_signal("complete")
 			queue_free()
 		if player.selected_die:
 			var select = player.selected_die
@@ -43,11 +48,13 @@ func _on_Area2D_input_event(viewport, event, shape_idx):
 				select.queue_free()
 				player.display_dice()
 				Events.emit_signal("text_log_push", "You split your die!")
+				emit_signal("complete")				
 				var old_parent = get_parent()
 				var new_parent = get_parent().get_parent()
 				get_parent().remove_child(self)
 				new_parent.add_child(self)
-				old_parent.display_events()
+				for child in old_parent.get_children():
+					child.queue_free()
 				queue_free()
 			else:
 				Events.emit_signal("text_log_push", "Your die is too small to split.")

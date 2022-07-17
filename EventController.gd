@@ -1,12 +1,13 @@
 extends Node
-
-var room_select = load("res://Interactables/ReturnToRoomSelect.tscn")
+var path = "res://Interactables/"
+var dir = Directory.new()
+var interactables = []
+var rng = RandomNumberGenerator.new()
 var player
 
 func _ready():
 	player = get_node("/root/Main/Player")
-	display_events()
-
+	
 func display_events():
 	if player.selected_die:
 		player.selected_die = null
@@ -20,6 +21,26 @@ func display_events():
 			event.get_node("Node2D").visible = true
 			position += increment
 	else:
-		var scene = room_select.instance()
+		pass
+
+func generate_events():
+	dir.open(path)
+	dir.list_dir_begin(true)
+	var file = dir.get_next()
+	if file.ends_with(".tscn"):
+		interactables.append(path + file)
+	while file:
+		file = dir.get_next()
+		if file:
+			if file.ends_with(".tscn"):
+				interactables.append(path + file)
+	var choices = []
+	for x in range(0, 3):
+		rng.randomize()
+		var selected = interactables[rng.randi_range(0, interactables.size()-1)]
+		choices.append(selected)
+		interactables.erase(selected)
+	for choice in choices:
+		var scene = load(choice).instance()
 		add_child(scene)
-		display_events()
+	display_events()
