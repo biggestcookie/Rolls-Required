@@ -3,12 +3,14 @@ extends Node
 var health = 30
 var state
 const PlayerState = preload("res://Game/PlayerState.gd")
+var Die = load("res://Game/Die.tscn")
 var rules
 var selected_die
 
 func _ready():
 	state = PlayerState.PLAYER_TURN
 	rules = get_node("/root/Main/Rules")
+	
 	
 func _damage_calc(damage):
 	if damage > 0:

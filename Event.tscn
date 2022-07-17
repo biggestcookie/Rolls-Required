@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://AddSideEvent.gd" type="Script" id=1]
+[ext_resource path="res://Game/EventButton.gd" type="Script" id=2]
+
+[node name="Event" type="Node"]
+script = ExtResource( 1 )
+
+[node name="Button" type="Button" parent="."]
+margin_left = 587.0
+margin_top = 239.0
+margin_right = 658.0
+margin_bottom = 318.0
+script = ExtResource( 2 )
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed" binds= [ "Button1" ]]

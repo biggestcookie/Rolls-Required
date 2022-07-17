@@ -57,7 +57,7 @@ func roll():
 		emit_signal("damage", result)
 	generate_chance_numbers()
 	select_die()
-		
+
 func generate_chance_numbers():
 	rng.randomize()
 	var potential = player.get_potential_rolls()
@@ -92,5 +92,7 @@ func isOdd(number):
 	else:
 		return false
 		
-func _on_Button_pressed():
-	emit_signal("select", self)
+func _on_Area2D_input_event(viewport, event, shape_idx):
+	if event is InputEventMouseButton and event.pressed:
+		emit_signal("select", self)
+		

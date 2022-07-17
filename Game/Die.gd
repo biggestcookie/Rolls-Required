@@ -5,11 +5,13 @@ var rng = RandomNumberGenerator.new()
 export var sides = []
 var times_rolled
 var rules
+onready var sides_label: Label = $Sides
 
 signal player_rolled(damage)
 
 func _ready():
 	reset()
+	on_sides_update(sides)
 	rules = get_node("/root/Main/Rules")
 
 func roll(enemy):
@@ -40,3 +42,14 @@ func remove_sides(sides_to_remove):
 
 func reset():
 	times_rolled = 0
+
+func _on_Area2D_input_event(viewport, event, shape_idx):
+	if event is InputEventMouseButton and event.pressed:
+		if get_parent().state == PlayerState.PLAYER_TURN:
+			if times_rolled < rules.roll_limit:
+				get_parent().selected_die = self
+			else:
+				Events.emit_signal("text_log_push", "You cannot roll this die anymore for this turn.")
+				
+func on_sides_update(new_sides):
+	sides_label.text = str(new_sides)
