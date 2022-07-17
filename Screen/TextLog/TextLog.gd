@@ -5,6 +5,9 @@ const text_entry_scene: PackedScene = preload("res://Screen/TextLog/TextEntry.ts
 
 onready var v_box: VBoxContainer = $VBoxContainer
 onready var scrollbar: VScrollBar = get_v_scrollbar()
+
+export (int) var autoscroll_speed := 1
+
 var line_queue = []
 
 # Called when the node enters the scene tree for the first time.
@@ -22,5 +25,10 @@ func on_text_push(new_text: String):
 		v_box.add_child(entry_instance)
 
 		# Scroll to bottom after adding to text log
+		yield(scroll_down(), "completed")
+
+func scroll_down():
+	yield(get_tree(), "idle_frame")
+	while scroll_vertical < scrollbar.max_value:
+		scroll_vertical += autoscroll_speed
 		yield(get_tree(), "idle_frame")
-		scroll_vertical = scrollbar.max_value
