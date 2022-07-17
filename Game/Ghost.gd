@@ -36,7 +36,11 @@ func _damage_calc(damage):
 		emit_signal("enemy_skipped")
 		clear_chance_numbers()
 	elif damage == curse:
-		Events.emit_signal("text_log_push", "You have rolled the curse. Your attack is blocked and you receive extra damage from {name}.".format({"name":name}))
+		Events.emit_signal("text_log_push", "You have rolled the curse. Your attack is blocked, you receive extra damage from {name}, and {name}'s dice get stronger.".format({"name":name}))
+		for die in get_node("Dice").get_children():
+			for x in range(0, die.sides.size()):
+				die.sides[x] += 1
+		get_node("Node2D").on_roll_update(selected_die.sides)
 		cursed = true
 		get_parent().calculate_enemy_attacks()
 	elif damage == 1:

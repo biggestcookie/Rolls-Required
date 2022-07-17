@@ -3,7 +3,7 @@
 [ext_resource path="res://Art/JetBrainsDynamicFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Art/PixelateShaderMat.tres" type="Material" id=2]
 [ext_resource path="res://Art/ninja_1f977.png" type="Texture" id=3]
-[ext_resource path="res://Game/Enemy.gd" type="Script" id=4]
+[ext_resource path="res://Game/Ninja.gd" type="Script" id=4]
 [ext_resource path="res://Screen/EnemyIcon.gd" type="Script" id=5]
 [ext_resource path="res://Game/EnemyDie.tscn" type="PackedScene" id=6]
 
@@ -12,11 +12,12 @@ radius = 76.0066
 
 [node name="Ninja" type="Node"]
 script = ExtResource( 4 )
+max_health = 10
 
 [node name="Dice" type="Node" parent="."]
 
-[node name="Die" parent="Dice" instance=ExtResource( 6 )]
-sides = [ 1, 2, 3 ]
+[node name="Die2" parent="Dice" instance=ExtResource( 6 )]
+sides = [ 1, 2, 2 ]
 
 [node name="Node2D" type="Node2D" parent="."]
 script = ExtResource( 5 )
@@ -69,10 +70,10 @@ align = 1
 valign = 1
 
 [node name="Roll" type="Label" parent="Node2D"]
-margin_left = -66.0
-margin_top = 68.0
-margin_right = 157.0
-margin_bottom = 101.0
+margin_left = -64.0
+margin_top = 59.0
+margin_right = 159.0
+margin_bottom = 92.0
 rect_scale = Vector2( 0.6, 0.6 )
 custom_fonts/font = ExtResource( 1 )
 align = 1

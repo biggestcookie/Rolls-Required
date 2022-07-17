@@ -63,7 +63,11 @@ func roll():
 		if cursed:
 			result*=2
 			cursed = false
-			Events.emit_signal("text_log_push", "{name}'s damage doubles because of your curse.".format({"name":name}))	
+			health += result
+			if health > max_health:
+				health = max_health
+			get_node("Node2D").on_health_update(health, max_health)
+			Events.emit_signal("text_log_push", "{name}'s damage doubles because of your curse and they steal your health!".format({"name":name}))	
 		emit_signal("damage", result)
 	generate_chance_numbers()
 	select_die()
