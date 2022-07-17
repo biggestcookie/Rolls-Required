@@ -5,7 +5,7 @@
 [ext_resource path="res://Art/JetBrainsDynamicFont.tres" type="DynamicFont" id=3]
 [ext_resource path="res://Screen/EnemyIcon.gd" type="Script" id=4]
 
-[node name="Enemy" type="Node"]
+[node name="EnemyIcon" type="Node"]
 script = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -41,8 +41,41 @@ margin_top = 178.6
 margin_right = -6.52002
 margin_bottom = 211.6
 grow_vertical = 2
+rect_pivot_offset = Vector2( -528, -202 )
 custom_fonts/font = ExtResource( 3 )
 text = "20"
+align = 2
+valign = 1
+uppercase = true
+
+[node name="Lucky" type="Label" parent="."]
+anchor_left = 0.48
+anchor_top = 0.329
+anchor_right = 0.48
+anchor_bottom = 0.329
+margin_left = 65.48
+margin_top = 53.6
+margin_right = 97.48
+margin_bottom = 86.6
+grow_vertical = 2
+rect_pivot_offset = Vector2( -528, -202 )
+custom_fonts/font = ExtResource( 3 )
+align = 2
+valign = 1
+uppercase = true
+
+[node name="Curse" type="Label" parent="."]
+anchor_left = 0.48
+anchor_top = 0.329
+anchor_right = 0.48
+anchor_bottom = 0.329
+margin_left = 65.48
+margin_top = 101.6
+margin_right = 97.48
+margin_bottom = 136.6
+grow_vertical = 2
+rect_pivot_offset = Vector2( -528, -202 )
+custom_fonts/font = ExtResource( 3 )
 align = 2
 valign = 1
 uppercase = true

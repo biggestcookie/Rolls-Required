@@ -1,5 +1,5 @@
 extends Node
-var health = 30
+export var health = 20
 var rng = RandomNumberGenerator.new()
 var lucky
 var curse
@@ -39,6 +39,7 @@ func _damage_calc(damage):
 		health -= damage
 		Events.emit_signal("text_log_push", "{name} takes {damage} damage. They have {health} health.".format({"name":name, "damage":damage, "health":health}))
 		get_parent().calculate_enemy_attacks()
+	get_node("EnemyIcon").on_health_update(health)	
 
 func roll():
 	if health <= 0:
@@ -54,22 +55,24 @@ func roll():
 			result*=2
 			cursed = false
 		emit_signal("damage", result)
-		generate_chance_numbers()
-		select_die()
+	generate_chance_numbers()
+	select_die()
 		
 func generate_chance_numbers():
 	rng.randomize()
 	var potential = player.get_potential_rolls()
 	lucky = potential[rng.randi_range(0, potential.size()-1)]
-	Events.emit_signal("text_log_push", "The lucky number for {name} is is {lucky}.".format({"name":name, "lucky": lucky}))
+	get_node("EnemyIcon").on_lucky_update(lucky)
 	potential.erase(lucky)
 	rng.randomize()
 	curse = potential[rng.randi_range(0, potential.size()-1)]
-	Events.emit_signal("text_log_push", "The cursed number for {name} is is {curse}.".format({"name":name, "curse": curse}))	
+	get_node("EnemyIcon").on_curse_update(curse)
 	
 func clear_chance_numbers():
 	lucky = -1
 	curse = -1
+	get_node("EnemyIcon").on_lucky_update("")
+	get_node("EnemyIcon").on_curse_update("")	
 	
 func select_die():
 	var dice = self.get_node("Dice").get_children()
