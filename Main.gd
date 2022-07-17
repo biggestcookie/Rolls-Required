@@ -4,7 +4,8 @@ export (int) var index: int = 0
 
 # Test startup code
 func _ready():
-	# start_interval()
+	# Events.emit_signal("text_log_push", "Hello [wave] world!")
+	start_interval()
 	pass
 
 
