@@ -1,6 +1,8 @@
 extends Node
 class_name EnemyIcon
 
+const PlayerState = preload("res://Game/PlayerState.gd")
+
 onready var health_label: Label = $Health
 onready var lucky_label: Label = $Lucky
 onready var curse_label: Label = $Curse
@@ -9,7 +11,11 @@ onready var area2d: Area2D = $Area2D
 onready var player: Player = $"/root/Main/Player"
 onready var sprite: Sprite = $Sprite
 
+signal select(target)
+
 func _ready():
+	connect("select", player, "select_enemy")
+	area2d.connect("input_event", self, "_on_Area2D_input_event")
 	area2d.connect("mouse_entered", self, "on_mouse_entered")
 	area2d.connect("mouse_exited", self, "on_mouse_exited")
 
@@ -26,9 +32,14 @@ func on_roll_update(new_roll):
 	roll_label.text = str(new_roll)
 
 func on_mouse_entered():
-	if player.selected_die:
+	if player.selected_die and player.state == PlayerState.PLAYER_TURN:
 		sprite.modulate = Color("#A7F0FF")
 
 func on_mouse_exited():
 	if player.selected_die:
+		sprite.modulate = Color("#ffffff")
+
+func _on_Area2D_input_event(_viewport, event, _shape_idx):
+	if event is InputEventMouseButton and event.pressed:
+		emit_signal("select", get_parent())
 		sprite.modulate = Color("#ffffff")

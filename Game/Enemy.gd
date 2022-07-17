@@ -7,7 +7,6 @@ var curse
 var selected_die
 signal damage(number)
 signal enemy_skipped
-signal select(target)
 onready var player: Player = $"/root/Main/Player"
 var parried
 var cursed
@@ -20,7 +19,6 @@ func _ready():
 	parried = false
 	connect("damage", player, "_damage_calc")
 	connect("enemy_skipped", player, "_continue")	
-	connect("select", player, "select_enemy")
 	generate_chance_numbers()
 	select_die()
 
