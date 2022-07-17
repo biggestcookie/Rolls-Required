@@ -22,7 +22,7 @@ func _exit_tree():
 
 func _on_Area2D_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.pressed:
-		if player.selected_die:
+		if player and player.selected_die:
 			rng.randomize()
 			var result = player.selected_die.sides[rng.randi_range(0, player.selected_die.sides.size()-1)]
 			player.selected_die.sides.append(result+1)
@@ -40,9 +40,9 @@ func _on_Area2D_input_event(viewport, event, shape_idx):
 			queue_free()
 
 func on_hover_entered():
-	if player.selected_die:
+	if player and player.selected_die:
 		sprite.modulate = Color("#A7F0FF")
 
 func on_hover_exited():
-	if player.selected_die:
+	if player and player.selected_die:
 		sprite.modulate = Color("#ffffff")

@@ -9,7 +9,7 @@ func _ready():
 	player = get_node("/root/Main/Player")
 	
 func display_events():
-	if player.selected_die:
+	if player and player.selected_die:
 		player.selected_die = null
 	var events = self.get_children()
 	if events.size() > 0:

@@ -28,7 +28,7 @@ func _on_Area2D_input_event(viewport, event, shape_idx):
 			if die.sides.size() > 3:
 				can_split = true
 		if can_split:
-			if player.selected_die:
+			if player and player.selected_die:
 				var select = player.selected_die
 				if select.sides.size() > 3:
 					randomize()
@@ -60,9 +60,9 @@ func _on_Area2D_input_event(viewport, event, shape_idx):
 					Events.emit_signal("text_log_push", "Your die is too small to split.")
 				
 func on_hover_entered():
-	if player.selected_die:
+	if player and player.selected_die:
 		sprite.modulate = Color("#A7F0FF")
 
 func on_hover_exited():
-	if player.selected_die:
+	if player and player.selected_die:
 		sprite.modulate = Color("#ffffff")
