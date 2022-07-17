@@ -27,21 +27,21 @@ func _damage_calc(damage):
 	if damage == lucky:
 		damage += 1
 		health -= damage
-		Events.emit_signal("text_log_push", "You hit the weak spot for {damage} damage! They have {health} health.".format({"damage":damage, "health":health}))
+		Events.emit_signal("text_log_push", "You hit the weak spot for [wave][color=yellow]{damage}[/color] damage![/wave] ".format({"damage":damage}))
 		if health <= 0:
 			get_parent().calculate_enemy_attacks()		
 			queue_free()
 		parried = true
-		Events.emit_signal("text_log_push", "{name} skips their next turn due to your parry".format({"name":name}))
+		Events.emit_signal("text_log_push", "[b]{name}[/b] [rainbow]skips their next turn[/rainbow] due to your parry".format({"name":name}))
 		emit_signal("enemy_skipped")
 		clear_chance_numbers()
 	elif damage == curse:
-		Events.emit_signal("text_log_push", "You have rolled the curse. Your attack is blocked and you receive extra damage from {name}.".format({"name":name}))
+		Events.emit_signal("text_log_push", "[color=blue][shake rate=30 level=15]You have rolled the curse.[/shake][/color] Your attack is blocked and you receive [shake rate=30 level=15]extra damage[/shake] from [color=red]{name}[/color].".format({"name":name}))
 		cursed = true
 		get_parent().calculate_enemy_attacks()
 	elif damage == 1:
 		health -= damage
-		Events.emit_signal("text_log_push", "{name} takes {damage} damage. They have {health} health. You may roll again due to your accuracy.".format({"name":name, "damage":damage, "health":health}))
+		Events.emit_signal("text_log_push", "[b]{name}[/b] takes [color=red]{damage}[/color] damage. [rainbow]You may roll again due to your accuracy.[/rainbow]".format({"name":name, "damage":damage}))
 		if health <= 0:
 			get_parent().calculate_enemy_attacks()
 			queue_free()
@@ -49,9 +49,9 @@ func _damage_calc(damage):
 	else: 
 		if parried:
 			health -= damage
-			Events.emit_signal("text_log_push", "{name} takes {damage} damage. They have {health} health.".format({"name":name, "damage":damage, "health":health}))
+			Events.emit_signal("text_log_push", "[b]{name}[/b] takes [color=red]{damage}[/color] damage.".format({"name":name, "damage":damage}))
 		else:
-			Events.emit_signal("text_log_push", "{name} is too elusive and dodges your attack! (You must roll a critical to attack this enemy)".format({"name":name}))
+			Events.emit_signal("text_log_push", "[b]{name}[/b] is too elusive and [tornado radius=2 freq=5]dodges your attack![/tornado] (You must roll a [color=yellow]critical[/color] to attack this enemy)".format({"name":name}))
 		if health <= 0:
 			queue_free()
 		get_parent().calculate_enemy_attacks()
@@ -59,22 +59,22 @@ func _damage_calc(damage):
 
 func roll():
 	if parried:
-		Events.emit_signal("text_log_push", "{name} skips their turn".format({"name":name}))
+		Events.emit_signal("text_log_push", "[b]{name}[/b] skips their turn".format({"name":name}))
 		parried = false
 	else:
 		rng.randomize()
-		var result = selected_die.sides[rng.randi_range(0, selected_die.sides.size()-1)]
-		Events.emit_signal("text_log_push", "{name} has rolled a {result}.".format({"name":name,"result":result}))
+		var result = selected_die.sides[rng.randi_range(0, selected_die.sides.size() - 1)]
+		Events.emit_signal("text_log_push", "[b]{name}[/b] has rolled a {result}.".format({"name":name,"result":result}))
 		var total_dmg = result
 		while result == 1:
-			Events.emit_signal("text_log_push", "{name} rolls again because of their lucky 1.".format({"name":name}))
+			Events.emit_signal("text_log_push", "[b]{name}[/b] rolls again because of their [color=yellow]lucky 1[/color].".format({"name":name}))
 			result = selected_die.sides[rng.randi_range(0, selected_die.sides.size()-1)]
-			Events.emit_signal("text_log_push", "{name} has rolled a {result}.".format({"name":name,"result":result}))
+			Events.emit_signal("text_log_push", "[b]{name}[/b] has rolled a {result}.".format({"name":name,"result":result}))
 			total_dmg += result
 		if cursed:
 			total_dmg*=2
 			cursed = false
-			Events.emit_signal("text_log_push", "{name}'s damage doubles because of your curse.".format({"name":name}))			
+			Events.emit_signal("text_log_push", "[b]{name}[/b]'s damage [shake rate=30 level=15]doubles[/shake] because of your [color=blue]curse[/color].".format({"name":name}))		
 		emit_signal("damage", total_dmg)
 	generate_chance_numbers()
 	select_die()

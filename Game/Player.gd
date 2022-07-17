@@ -26,15 +26,15 @@ func _damage_calc(damage):
 	if damage > 0:
 		health -= damage
 		if health <= 0:
-			Events.emit_signal("text_log_push", "Game over!")
+			Events.emit_signal("text_log_push", "[shake rate=30 level=15][color=red]Game over![/color][/shake]")
 			queue_free()
-		Events.emit_signal("text_log_push", "You take {damage} damage. You have {health} health.".format({"damage":damage, "health":health}))
+		Events.emit_signal("text_log_push", "You take [color=red]{damage}[/color] damage.".format({"damage":damage}))
 		health_label.text = "HP: {health}/{max}".format({"health":health, "max":max_health})
 		
 func start_turn():
 	turns += 1
 	yield(get_tree().create_timer(0.25), "timeout")
-	Events.emit_signal("text_log_push", " === TURN %s ===" % turns)
+	Events.emit_signal("text_log_push", "[wave]=== TURN %s ===[/wave]" % turns)
 	state = PlayerState.PLAYER_TURN
 	var dice = self.get_children()
 	for die in dice:
@@ -42,7 +42,7 @@ func start_turn():
 		
 func start_loot():
 	yield(get_tree().create_timer(0.25), "timeout")
-	Events.emit_signal("text_log_push", "Victory! Select a reward.")
+	Events.emit_signal("text_log_push", "[rainbow][wave]Victory![/wave][/rainbow] Select a reward.")
 	state = PlayerState.PLAYER_TURN
 	var dice = self.get_children()
 	for die in dice:

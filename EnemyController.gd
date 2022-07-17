@@ -61,7 +61,7 @@ func generate_enemies():
 	for choice in choices:
 		var scene = load(choice).instance()
 		add_child(scene)
-	Events.emit_signal("text_log_push", "A {first} and {second} approach to fight!".format({"first":get_children()[0].name,"second":get_children()[1].name}))
+	Events.emit_signal("text_log_push", "A [b]{first}[/b] and [b]{second}[/b] [color=red]approach to fight![/color]".format({"first":get_children()[0].name,"second":get_children()[1].name}))
 	round_label.text = "Round {num}".format({"num":rounds})
 	rounds+=1
 	display_enemies()
