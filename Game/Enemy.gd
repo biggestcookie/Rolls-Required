@@ -89,7 +89,7 @@ func select_die():
 	var dice = self.get_node("Dice").get_children()
 	rng.randomize()
 	selected_die = dice[rng.randi_range(0,dice.size()-1)]
-	Events.emit_signal("text_log_push", "{name} is going to roll their {dice} die next turn.".format({"name":name, "dice":selected_die.sides}))
+	get_node("Node2D").on_roll_update(selected_die.sides)
 		
 func _on_Area2D_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.pressed:

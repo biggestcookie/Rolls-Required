@@ -64,6 +64,16 @@ custom_fonts/font = ExtResource( 4 )
 align = 1
 valign = 1
 
+[node name="Roll" type="Label" parent="Node2D"]
+margin_left = -100.0
+margin_top = 61.0
+margin_right = 235.0
+margin_bottom = 136.0
+rect_scale = Vector2( 0.6, 0.6 )
+custom_fonts/font = ExtResource( 4 )
+align = 1
+valign = 1
+
 [node name="Area2D" type="Area2D" parent="Node2D"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Area2D"]
