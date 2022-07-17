@@ -13,6 +13,7 @@ var line_queue = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Events.connect("text_log_push", self, "on_text_push")
+	EventBus.connect("text_log_push", self, "on_text_push")
 
 
 func on_text_push(new_text: String):
