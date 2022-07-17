@@ -10,6 +10,7 @@ var enemy_controller
 var Die = load("res://Game/Die.tscn")
 var rules
 var selected_die
+var turns := 0
 
 func _ready():
 	health = max_health
@@ -18,6 +19,7 @@ func _ready():
 	state = PlayerState.PLAYER_TURN
 	rules = get_node("/root/Main/Rules")
 	enemy_controller = get_node("/root/Main/Enemies")
+	start_turn()
 	display_dice()
 	
 func _damage_calc(damage):
@@ -30,8 +32,9 @@ func _damage_calc(damage):
 		health_label.text = "HP: {health}/{max}".format({"health":health, "max":max_health})
 		
 func start_turn():
+	turns += 1
 	yield(get_tree().create_timer(0.25), "timeout")
-	Events.emit_signal("text_log_push", "It is your turn.")
+	Events.emit_signal("text_log_push", " === TURN %s ===" % turns)
 	state = PlayerState.PLAYER_TURN
 	var dice = self.get_children()
 	for die in dice:

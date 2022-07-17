@@ -20,6 +20,11 @@ _global_script_classes=[ {
 "path": "res://Game/DieStats.gd"
 }, {
 "base": "Node",
+"class": "EnemyIcon",
+"language": "GDScript",
+"path": "res://Screen/EnemyIcon.gd"
+}, {
+"base": "Node",
 "class": "EnemyStats",
 "language": "GDScript",
 "path": "res://Enemies/EnemyStats.gd"
@@ -37,6 +42,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "CombatStats": "",
 "DieStats": "",
+"EnemyIcon": "",
 "EnemyStats": "",
 "EnemyUI": "",
 "Player": ""

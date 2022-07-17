@@ -8,21 +8,23 @@ var selected_die
 signal damage(number)
 signal enemy_skipped
 signal select(target)
-var player
+onready var player: Player = $"/root/Main/Player"
 var parried
 var cursed
+onready var enemy_icon: EnemyIcon = $Node2D
+
 
 func _ready():
 	health = max_health
-	get_node("Node2D").on_health_update(health, max_health)
+	enemy_icon.on_health_update(health, max_health)
 	parried = false
-	player = get_node("/root/Main/Player")
 	connect("damage", player, "_damage_calc")
 	connect("enemy_skipped", player, "_continue")	
 	connect("select", player, "select_enemy")
 	generate_chance_numbers()
 	select_die()
-	
+
+
 func _damage_calc(damage):
 	if damage == lucky:
 		damage += 1
@@ -52,7 +54,7 @@ func _damage_calc(damage):
 		if health <= 0:
 			queue_free()
 		get_parent().calculate_enemy_attacks()
-	get_node("Node2D").on_health_update(health, max_health)
+	enemy_icon.on_health_update(health, max_health)
 
 func roll():
 	if parried:
@@ -73,25 +75,24 @@ func generate_chance_numbers():
 	rng.randomize()
 	var potential = player.get_potential_rolls()
 	lucky = potential[rng.randi_range(0, potential.size()-1)]
-	get_node("Node2D").on_lucky_update(lucky)
+	enemy_icon.on_lucky_update(lucky)
 	potential.erase(lucky)
 	rng.randomize()
 	curse = potential[rng.randi_range(0, potential.size()-1)]
-	get_node("Node2D").on_curse_update(curse)
+	enemy_icon.on_curse_update(curse)
 	
 func clear_chance_numbers():
 	lucky = -1
 	curse = -1
-	get_node("Node2D").on_lucky_update("")
-	get_node("Node2D").on_curse_update("")	
+	enemy_icon.on_lucky_update("")
+	enemy_icon.on_curse_update("")	
 	
 func select_die():
 	var dice = self.get_node("Dice").get_children()
 	rng.randomize()
 	selected_die = dice[rng.randi_range(0,dice.size()-1)]
-	get_node("Node2D").on_roll_update(selected_die.sides)
+	enemy_icon.on_roll_update(selected_die.sides)
 		
 func _on_Area2D_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.pressed:
 		emit_signal("select", self)
-		
