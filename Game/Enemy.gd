@@ -24,7 +24,10 @@ func _ready():
 	
 func _damage_calc(damage):
 	if damage == lucky:
-		damage += rules.critical
+		if damage == 1:
+			damage = 11
+		else:
+			damage += rules.critical
 		health -= damage
 		Events.emit_signal("text_log_push", "You hit the weak spot for {damage} damage! They have {health} health.".format({"damage":damage, "health":health}))
 		parried = true
@@ -34,7 +37,11 @@ func _damage_calc(damage):
 	elif damage == curse:
 		Events.emit_signal("text_log_push", "You have rolled the curse. Your attack is blocked and you receive extra damage from {name}.".format({"name":name}))
 		cursed = true
-		get_parent().calculate_enemy_attacks()		
+		get_parent().calculate_enemy_attacks()
+	elif damage == 1:
+		health -= damage
+		Events.emit_signal("text_log_push", "{name} takes {damage} damage. They have {health} health. You may roll again due to your accuracy.".format({"name":name, "damage":damage, "health":health}))
+		emit_signal("enemy_skipped")
 	else: 
 		health -= damage
 		Events.emit_signal("text_log_push", "{name} takes {damage} damage. They have {health} health.".format({"name":name, "damage":damage, "health":health}))

@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Enemies/TestEnemy.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Combats/CombatStats.tscn" type="PackedScene" id=2]
+
+[node name="CombatStats" instance=ExtResource( 2 )]
+enemy_scenes = [ ExtResource( 1 ), ExtResource( 1 ) ]

@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Art/PixelateShaderMat.tres" type="Material" id=1]
+[ext_resource path="res://Art/hammer-and-wrench_1f6e0-fe0f.png" type="Texture" id=2]
+[ext_resource path="res://Interactables/UpgradeRandomSide.gd" type="Script" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 64.0078
+
+[node name="Upgrade" type="Node"]
+script = ExtResource( 3 )
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="Node2D"]
+material = ExtResource( 1 )
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 2 )
+
+[node name="Area2D" type="Area2D" parent="Node2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Area2D"]
+shape = SubResource( 1 )
+
+[connection signal="input_event" from="Node2D/Area2D" to="." method="_on_Area2D_input_event"]

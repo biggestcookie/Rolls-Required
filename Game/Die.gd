@@ -11,7 +11,7 @@ signal player_rolled(damage)
 
 func _ready():
 	reset()
-	on_sides_update(sides)
+	on_sides_update()
 	rules = get_node("/root/Main/Rules")
 
 func roll(enemy):
@@ -51,5 +51,5 @@ func _on_Area2D_input_event(viewport, event, shape_idx):
 			else:
 				Events.emit_signal("text_log_push", "You cannot roll this die anymore for this turn.")
 				
-func on_sides_update(new_sides):
-	sides_label.text = str(new_sides)
+func on_sides_update():
+	sides_label.text = str(sides)

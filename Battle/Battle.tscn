@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Battle/Battle.gd" type="Script" id=1]
+[ext_resource path="res://Screen/TextLog/TextLog.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Art/black.png" type="Texture" id=3]
+[ext_resource path="res://Combats/Combat_Test.tscn" type="PackedScene" id=4]
+
+[node name="Battle" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 1024.0
+margin_bottom = 600.0
+script = ExtResource( 1 )
+combat_scene = ExtResource( 4 )
+
+[node name="ScrollContainer" parent="." instance=ExtResource( 2 )]
+rect_pivot_offset = Vector2( 312, 92 )
+
+[node name="Black" type="Sprite" parent="."]
+position = Vector2( 511, 302 )
+scale = Vector2( 42.9167, 25.1667 )
+z_index = -2
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="EnemyIcons" type="Node" parent="."]

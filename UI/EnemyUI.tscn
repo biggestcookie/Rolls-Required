@@ -1,0 +1,167 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Art/JetBrainsDynamicFont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Art/ogre_1f479.png" type="Texture" id=3]
+[ext_resource path="res://Art/PixelateShaderMat.tres" type="Material" id=4]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Node2D
+class_name EnemyUI
+
+onready var sprite: Sprite = $Sprite
+onready var name_label: Label = $EnemyName
+onready var lucky_label: Label = $Lucky
+onready var curse_label: Label = $Curse
+onready var health_label: Label = $Position2D/Health
+onready var max_health_label: Label = $Position2D/MaxHealth
+
+var enemy_stats: EnemyStats
+
+
+func _ready():
+	sprite.texture = enemy_stats.sprite_tex
+	name_label.text = enemy_stats.enemy_name
+	max_health_label.text = str(enemy_stats.max_health)
+	health_label.text = str(enemy_stats.health)
+	lucky_label.text = str(enemy_stats.lucky)
+	curse_label.text = str(enemy_stats.curse)
+
+
+func on_hover():
+	# emit index
+	pass
+
+
+func on_health_update(new_health: int):
+	health_label.text = str(new_health)
+
+
+func on_lucky_update(new_lucky):
+	lucky_label.text = str(new_lucky)
+
+
+func on_curse_update(new_curse):
+	curse_label.text = str(new_curse)
+"
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 106.0
+height = 30.0
+
+[node name="EnemyUI" type="Node2D"]
+script = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+material = ExtResource( 4 )
+scale = Vector2( 0.36875, 0.353125 )
+texture = ExtResource( 3 )
+
+[node name="EnemyName" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -35.0
+margin_top = -120.0
+margin_right = 35.0
+margin_bottom = -87.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_fonts/font = ExtResource( 2 )
+text = "Enemy"
+align = 1
+valign = 1
+uppercase = true
+
+[node name="Lucky" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 70.0
+margin_top = -50.0
+margin_right = 102.0
+margin_bottom = -17.0
+grow_vertical = 2
+rect_pivot_offset = Vector2( -528, -202 )
+custom_colors/font_color = Color( 1, 0.988235, 0.192157, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "1"
+align = 2
+valign = 1
+uppercase = true
+
+[node name="Curse" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 70.0
+margin_top = 20.0
+margin_right = 102.0
+margin_bottom = 55.0
+grow_vertical = 2
+rect_pivot_offset = Vector2( -528, -202 )
+custom_colors/font_color = Color( 0.870588, 0, 0, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "6"
+align = 2
+valign = 1
+uppercase = true
+
+[node name="Position2D" type="Position2D" parent="."]
+position = Vector2( 0, 80 )
+
+[node name="Health" type="Label" parent="Position2D"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -60.0
+margin_top = -16.5
+margin_right = -10.0
+margin_bottom = 16.5
+grow_vertical = 2
+rect_pivot_offset = Vector2( -528, -202 )
+custom_fonts/font = ExtResource( 2 )
+text = "19"
+align = 2
+valign = 1
+uppercase = true
+
+[node name="MaxHealth" type="Label" parent="Position2D"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 10.0
+margin_top = -16.5
+margin_right = 70.0
+margin_bottom = 16.5
+grow_horizontal = 0
+grow_vertical = 2
+custom_fonts/font = ExtResource( 2 )
+text = "20"
+valign = 1
+uppercase = true
+
+[node name="Slash" type="Label" parent="Position2D"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -63.0
+margin_top = -16.5
+margin_right = 63.0
+margin_bottom = 16.5
+grow_vertical = 2
+custom_fonts/font = ExtResource( 2 )
+text = "/"
+align = 1
+valign = 1
+uppercase = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 1 )
