@@ -36,11 +36,11 @@ func on_roll_update(new_roll):
 	roll_label.text = str(new_roll)
 
 func on_mouse_entered():
-	if player.selected_die and player.state == PlayerState.PLAYER_TURN:
+	if player and player.selected_die and player.state == PlayerState.PLAYER_TURN:
 		sprite.modulate = Color("#A7F0FF")
 
 func on_mouse_exited():
-	if player.selected_die:
+	if player and player.selected_die:
 		sprite.modulate = Color("#ffffff")
 
 func _on_Area2D_input_event(_viewport, event, _shape_idx):
