@@ -28,12 +28,18 @@ _global_script_classes=[ {
 "class": "EnemyUI",
 "language": "GDScript",
 "path": "res://Enemies/EnemyUI.gd"
+}, {
+"base": "Node",
+"class": "Player",
+"language": "GDScript",
+"path": "res://Game/Player.gd"
 } ]
 _global_script_class_icons={
 "CombatStats": "",
 "DieStats": "",
 "EnemyStats": "",
-"EnemyUI": ""
+"EnemyUI": "",
+"Player": ""
 }
 
 [application]
