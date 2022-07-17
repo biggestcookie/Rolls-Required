@@ -5,7 +5,6 @@
 [ext_resource path="res://Enemies/Demon.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Rooms/Events/Heal.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Screen/Screen.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Battle/Battle.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Game/Rules.gd" type="Script" id=6]
 [ext_resource path="res://EnemyController.gd" type="Script" id=8]
 

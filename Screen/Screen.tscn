@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Screen/TextLog/TextLog.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Screen/Screen.gd" type="Script" id=2]
+[ext_resource path="res://Art/black.png" type="Texture" id=4]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 1024.0
+margin_bottom = 600.0
+script = ExtResource( 2 )
+
+[node name="ScrollContainer" parent="." instance=ExtResource( 1 )]
+margin_left = 100.0
+margin_right = -100.0
+rect_pivot_offset = Vector2( 312, 92 )
+
+[node name="Black" type="Sprite" parent="."]
+position = Vector2( 511, 302 )
+scale = Vector2( 42.9167, 25.1667 )
+z_index = -2
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
