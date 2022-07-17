@@ -1,7 +1,7 @@
 extends Node
 class_name Player
 
-var max_health = 30
+var max_health = 100
 var health
 var state
 const PlayerState = preload("res://Game/PlayerState.gd")
@@ -26,22 +26,25 @@ func _damage_calc(damage):
 	if damage > 0:
 		health -= damage
 		if health <= 0:
-			Events.emit_signal("text_log_push", "[shake rate=30 level=15][color=red]Game over![/color][/shake]")
+			Events.emit_signal("text_log_push", "[shake rate=30 level=10][color=red]Game over![/color][/shake]")
 			queue_free()
 		Events.emit_signal("text_log_push", "You take [color=red]{damage}[/color] damage.".format({"damage":damage}))
 		health_label.text = "HP: {health}/{max}".format({"health":health, "max":max_health})
 		
 func start_turn():
-	turns += 1
-	yield(get_tree().create_timer(0.25), "timeout")
-	Events.emit_signal("text_log_push", "[wave]=== TURN %s ===[/wave]" % turns)
-	state = PlayerState.PLAYER_TURN
-	var dice = self.get_children()
-	for die in dice:
-		die.reset()
+	yield(get_tree().create_timer(0.25), "timeout")	
+	if not enemy_controller.check_victory():
+		enemy_controller.generate_chance_numbers()
+		turns += 1
+		Events.emit_signal("text_log_push", "[wave]=== TURN %s ===[/wave]" % turns)
+		state = PlayerState.PLAYER_TURN
+		var dice = self.get_children()
+		for die in dice:
+			die.reset()
 		
 func start_loot():
 	yield(get_tree().create_timer(0.25), "timeout")
+	turns = 0
 	Events.emit_signal("text_log_push", "[rainbow][wave]Victory![/wave][/rainbow] Select a reward.")
 	state = PlayerState.PLAYER_TURN
 	var dice = self.get_children()
@@ -50,11 +53,12 @@ func start_loot():
 
 func _continue():
 	yield(get_tree().create_timer(0.25), "timeout")
-	state = PlayerState.PLAYER_TURN	
-	if not can_roll():
-		enemy_controller.calculate_enemy_attacks()
-	else:
-		Events.emit_signal("text_log_push", "You can still roll for this turn.")
+	if not enemy_controller.check_victory():
+		state = PlayerState.PLAYER_TURN	
+		if not can_roll():
+			enemy_controller.calculate_enemy_attacks()
+		else:
+			Events.emit_signal("text_log_push", "You can still roll for this turn.")
 	
 func get_potential_rolls():
 	var dice = self.get_children()

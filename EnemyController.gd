@@ -20,16 +20,25 @@ func _ready():
 	connect("victory", event_controller, "generate_events")
 	connect("victory", player, "start_loot")
 	generate_enemies()
-
-func calculate_enemy_attacks():
-	for enemy in get_children():
-		enemy.roll()
-	yield(get_tree().create_timer(0.25), "timeout")
+	
+func check_victory():
 	if get_children().size() == 0:
 		player.selected_die = null
 		emit_signal("victory")
+		return true
 	else:
+		return false
+
+func calculate_enemy_attacks():
+	yield(get_tree().create_timer(0.25), "timeout")	
+	for enemy in get_children():
+		enemy.roll()
+	if not check_victory():
 		emit_signal("end_turn")
+		
+func generate_chance_numbers():
+	for enemy in get_children():
+		enemy.generate_chance_numbers()
 	
 func display_enemies():
 	var enemies = self.get_children()

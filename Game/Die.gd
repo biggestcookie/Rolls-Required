@@ -43,17 +43,14 @@ func reset():
 	times_rolled = 0
 	sprite.modulate = Color("#ffffff")
 
-
 func on_hover_entered():
 	if player.selected_die != self:
 		sprite.modulate = Color("#A7F0FF")
-
 
 func on_hover_exited():
 	if player.selected_die != self:
 		sprite.modulate = Color("#ffffff")
 	
-
 func _on_Area2D_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.pressed:
 		if player.state == PlayerState.PLAYER_TURN:

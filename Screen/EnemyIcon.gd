@@ -18,6 +18,10 @@ func _ready():
 	area2d.connect("input_event", self, "_on_Area2D_input_event")
 	area2d.connect("mouse_entered", self, "on_mouse_entered")
 	area2d.connect("mouse_exited", self, "on_mouse_exited")
+	
+func _exit_tree():
+	area2d.disconnect("mouse_entered", self, "on_mouse_entered")
+	area2d.disconnect("mouse_exited", self, "on_mouse_exited")
 
 func on_health_update(new_health: int, max_health: int):
 	health_label.text = "{new}/{max}".format({"new":new_health, "max":max_health})
