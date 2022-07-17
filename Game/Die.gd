@@ -44,11 +44,11 @@ func reset():
 	sprite.modulate = Color("#ffffff")
 
 func on_hover_entered():
-	if player and player.selected_die != self:
+	if player and player.selected_die != self and times_rolled < rules.roll_limit:
 		sprite.modulate = Color("#A7F0FF")
 
 func on_hover_exited():
-	if player and player.selected_die != self:
+	if player and player.selected_die != self and times_rolled < rules.roll_limit:
 		sprite.modulate = Color("#ffffff")
 	
 func _on_Area2D_input_event(_viewport, event, _shape_idx):
