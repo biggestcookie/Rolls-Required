@@ -45,6 +45,8 @@ config/icon="res://icon.png"
 [autoload]
 
 Events="*res://Game/Events.gd"
+EventBus="*res://Game/EventBus.gd"
+PlayerStats="*res://Game/PlayerStats.gd"
 
 [physics]
 

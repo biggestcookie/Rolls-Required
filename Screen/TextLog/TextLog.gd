@@ -30,6 +30,10 @@ func on_text_push(new_text: String):
 
 func scroll_down():
 	yield(get_tree(), "idle_frame")
-	while scroll_vertical < scrollbar.max_value:
+	var last_scroll_value = scroll_vertical - 1
+	while scroll_vertical != last_scroll_value:
+		last_scroll_value = scroll_vertical
+		print(last_scroll_value)
 		scroll_vertical += autoscroll_speed
+		print(scroll_vertical)
 		yield(get_tree(), "idle_frame")
